@@ -3,5 +3,5 @@
 ## How to run
 Boot into Arch live environment(archiso) and run this command
 ```bash
-curl -sL https://bit.ly/get-stats | bash
+curl -sL https://bit.ly/get-stats | sudo bash
 ```
