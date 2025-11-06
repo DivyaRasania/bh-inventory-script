@@ -16,8 +16,22 @@ ensure_pkg() {
   fi
 }
 
-# Try to make fastfetch and jq available (Arch live ISO friendly)
-ensure_pkg fastfetch
+# Check if fastfetch is available, ask user if they want to install it
+if ! command -v fastfetch >/dev/null 2>&1; then
+  if command -v pacman >/dev/null 2>&1; then
+    echo "fastfetch is not installed."
+    echo -n "Do you want to install fastfetch? (y/n): "
+    read -r response
+    if [[ "$response" =~ ^[Yy]$ ]]; then
+      echo "Installing fastfetch..."
+      ensure_pkg fastfetch
+    else
+      echo "Skipping fastfetch installation. Will use system files instead."
+    fi
+  fi
+fi
+
+# Try to make jq available (needed for parsing fastfetch JSON)
 ensure_pkg jq
 
 # Cache fastfetch JSON output if available
